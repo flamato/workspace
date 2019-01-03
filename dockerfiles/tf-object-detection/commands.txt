@@ -1,0 +1,23 @@
+$ cd $HOME
+$ git clone https://github.com/flamato/models.git
+$ cd $HOME/models
+
+$ docker pull kuberlab/tf-object-detection
+
+# From ~/models
+$ docker run -it --net=host --env="DISPLAY" --volume="$HOME/.Xauthority:/root/.Xauthority:rw" --runtime=nvidia --volume="$(pwd)":/src <image> /bin/bash
+
+$ cd /src/research/
+
+# From /src/research/
+$ protoc object_detection/protos/*.proto --python_out=.
+
+$ echo "export PYTHONPATH=$PYTHONPATH:/src/research:/src/research/slim" >> $HOME/.bashrc
+
+# Test installation
+$ python object_detection/builders/model_builder_test.py
+
+docker ps 
+docker commit <image> tf-object-detection 
+
+

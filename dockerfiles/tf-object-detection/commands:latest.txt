@@ -1,0 +1,12 @@
+$ cd $HOME && git clone https://github.com/flamato/models.git && cd $HOME/models
+
+$ docker pull flozor/tf-object-detection:1.9.0-gpu
+
+# From ~/models
+$ docker run -it --net=host --env="DISPLAY" --volume="$HOME/.Xauthority:/root/.Xauthority:rw" --runtime=nvidia --volume="$(pwd)":/src flozor/tf-object-detection:1.9.0-gpu /bin/bash
+
+# From /src/research/
+$ cd /src/research/ && protoc object_detection/protos/*.proto --python_out=.
+
+# Test installation
+$ python object_detection/builders/model_builder_test.py 
